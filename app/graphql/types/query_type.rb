@@ -5,7 +5,7 @@ module Types
     field :users, [Types::UserType], null: false, description: "returns all the users"
 
     def items
-      Item.all
+      Item.preload(:user)
     end
 
     def users
