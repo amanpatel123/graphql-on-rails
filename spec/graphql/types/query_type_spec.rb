@@ -23,4 +23,25 @@ describe Types::QueryType do
       expect(results.dig("data", "items").pluck("title")).to contain_exactly(item_1.title, item_2.title)
     end
   end
+
+  describe "users" do
+    let!(:user_1) { create(:user) }
+    let!(:user_2) { create(:user) }
+
+    let(:query) do
+      <<~GRAPHQL
+        query Users {
+          users {
+            email
+          }
+        }
+      GRAPHQL
+    end
+
+    it 'returns all the users' do
+      results = GraphqlOnRailsSchema.execute(query)
+
+      expect(results.dig("data", "users").pluck("email")).to contain_exactly(user_1.email, user_2.email)
+    end
+  end
 end
